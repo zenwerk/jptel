@@ -35,6 +35,19 @@ func main() {
 	fmt.Println(result.AreaCode)       // 090
 	fmt.Println(result.CityCode)       // 9876
 	fmt.Println(result.SubscriberCode) // 5432
+	
+	fmt.Println(jptel.Normalize("0123456789"))           // 0123-45-6789
+	fmt.Println(jptel.Normalize("０１ー２ー３４５６７８９")) // 0123-45-6789
+	
+	err = jptel.Validate("090-1234-5678") // nil
+	if err != nil {
+		panic(err)
+	}
+	
+	err = jptel.Validate("0-90-12345678") // error
+	if err != nil {
+		panic(err)
+	}
 }
 ```
 
