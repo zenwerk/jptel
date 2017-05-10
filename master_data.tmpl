@@ -1,0 +1,7 @@
+package jptelsplit
+
+{% for index, area_codes in area_code_dict.items() %}
+var AreaCode{{ index }} = []string{
+{% for area_code in area_codes %}   "{{ area_code }}",
+{% endfor %}}
+{% endfor %}
