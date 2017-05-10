@@ -97,7 +97,7 @@ func JpTelSplit(tel string) ([]string, error) {
 		}
 	}
 
-	// その他番号1
+	// その他番号
 	for _, code := range OtherCode {
 		if strings.HasPrefix(tel, code) {
 			if len(tel) < OtherCodePrefixLen + OtherCodeLen {

@@ -48,3 +48,6 @@ func main() {
 $ pip install -r freeze.txt
 $ python generate_master_data.py
 ```
+
+### thanks
+- https://gist.github.com/kennyj/4966002
