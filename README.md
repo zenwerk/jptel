@@ -24,19 +24,17 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(len(result)) // 3
-	fmt.Println(result[0])   // 03
-	fmt.Println(result[1])   // 1234
-	fmt.Println(result[2])   // 5678
+	fmt.Println(result.AreaCode)       // 03
+	fmt.Println(result.CityCode)       // 1234
+	fmt.Println(result.SubscriberCode) // 5678
 
-	result, err = jptel.Split("090987654323")
+	result, err = jptel.Split("09098765432")
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(len(result)) // 3
-	fmt.Println(result[0])   // 090
-	fmt.Println(result[1])   // 9876
-	fmt.Println(result[2])   // 5432
+	fmt.Println(result.AreaCode)       // 090
+	fmt.Println(result.CityCode)       // 9876
+	fmt.Println(result.SubscriberCode) // 5432
 }
 ```
 

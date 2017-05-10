@@ -17,7 +17,7 @@ const (
 	freeDialPrefixLen   = 4
 	freeDialCodeLen     = 3
 	otherCodePrefixLen  = 4
-	otherCodeLen = 3
+	otherCodeLen        = 3
 )
 
 var mobileCode = []string{
@@ -51,19 +51,19 @@ var (
 )
 
 // Split splits japaneses telephone number to a slice consist of AreaCode, CityCode, SubscriberNumber.
-func Split(tel string) ([]string, error) {
+func Split(tel string) (JPTelephoneNumber, error) {
 	// 固定電話
 	for _, areaCode := range areaCodes {
 		for _, code := range areaCode {
 			if strings.HasPrefix(tel, code) {
 				if len(tel) < totalCodeLen {
-					return []string{"", "", ""}, shortError
+					return JPTelephoneNumber{}, shortError
 				}
 				codeLen := len(code)
-				return []string{
-					tel[:codeLen],             // AreaCode
-					tel[codeLen:totalCodeLen], // CityCode
-					tel[totalCodeLen:],        // SubscriberCode
+				return JPTelephoneNumber{
+					AreaCode:       tel[:codeLen],
+					CityCode:       tel[codeLen:totalCodeLen],
+					SubscriberCode: tel[totalCodeLen:],
 				}, nil
 			}
 		}
@@ -72,13 +72,13 @@ func Split(tel string) ([]string, error) {
 	// フリーダイヤル
 	for _, code := range freeDialCode {
 		if strings.HasPrefix(tel, code) {
-			if len(tel) < freeDialPrefixLen + freeDialCodeLen {
-				return []string{"", "", ""}, shortError
+			if len(tel) < freeDialPrefixLen+freeDialCodeLen {
+				return JPTelephoneNumber{}, shortError
 			}
-			return []string{
-				tel[:freeDialPrefixLen],
-				tel[freeDialPrefixLen : freeDialPrefixLen+freeDialCodeLen],
-				tel[freeDialPrefixLen+freeDialCodeLen:],
+			return JPTelephoneNumber{
+				AreaCode:       tel[:freeDialPrefixLen],
+				CityCode:       tel[freeDialPrefixLen : freeDialPrefixLen+freeDialCodeLen],
+				SubscriberCode: tel[freeDialPrefixLen+freeDialCodeLen:],
 			}, nil
 		}
 	}
@@ -86,13 +86,13 @@ func Split(tel string) ([]string, error) {
 	// 携帯番号
 	for _, code := range mobileCode {
 		if strings.HasPrefix(tel, code) {
-			if len(tel) < mobileCodePrefixLen + mobileCodeLen {
-				return []string{"", "", ""}, shortError
+			if len(tel) < mobileCodePrefixLen+mobileCodeLen {
+				return JPTelephoneNumber{}, shortError
 			}
-			return []string{
-				tel[:mobileCodePrefixLen],
-				tel[mobileCodePrefixLen : mobileCodePrefixLen+mobileCodeLen],
-				tel[mobileCodePrefixLen+mobileCodeLen:],
+			return JPTelephoneNumber{
+				AreaCode:       tel[:mobileCodePrefixLen],
+				CityCode:       tel[mobileCodePrefixLen : mobileCodePrefixLen+mobileCodeLen],
+				SubscriberCode: tel[mobileCodePrefixLen+mobileCodeLen:],
 			}, nil
 		}
 	}
@@ -100,16 +100,16 @@ func Split(tel string) ([]string, error) {
 	// その他番号
 	for _, code := range otherCode {
 		if strings.HasPrefix(tel, code) {
-			if len(tel) < otherCodePrefixLen + otherCodeLen {
-				return []string{"", "", ""}, shortError
+			if len(tel) < otherCodePrefixLen+otherCodeLen {
+				return JPTelephoneNumber{}, shortError
 			}
-			return []string{
-				tel[:otherCodePrefixLen],
-				tel[otherCodePrefixLen : otherCodePrefixLen+ otherCodeLen],
-				tel[otherCodePrefixLen+ otherCodeLen:],
+			return JPTelephoneNumber{
+				AreaCode:       tel[:otherCodePrefixLen],
+				CityCode:       tel[otherCodePrefixLen : otherCodePrefixLen+otherCodeLen],
+				SubscriberCode: tel[otherCodePrefixLen+otherCodeLen:],
 			}, nil
 		}
 	}
 
-	return []string{"", "", ""}, matchError
+	return JPTelephoneNumber{}, matchError
 }
