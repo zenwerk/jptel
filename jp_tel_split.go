@@ -1,9 +1,8 @@
-package jptelsplit
+package jptel
 
 import (
+	"errors"
 	"strings"
-
-	"github.com/pkg/errors"
 )
 
 // from: http://www.soumu.go.jp/main_sosiki/joho_tsusin/top/tel_number/number_shitei.html
@@ -18,10 +17,10 @@ const (
 	freeDialPrefixLen   = 4
 	freeDialCodeLen     = 3
 	otherCodePrefixLen  = 4
-	otherCodeLen        = 3
+	otherCodeLen = 3
 )
 
-var MobileCode = []string{
+var mobileCode = []string{
 	"050", // IP電話
 	"070", // 携帯電話/PHS
 	"080", // 携帯電話
@@ -29,21 +28,21 @@ var MobileCode = []string{
 	"020", // その他
 }
 
-var FreeDialCode = []string{
+var freeDialCode = []string{
 	"0120", // フリーダイヤル 0120-xxx-xxx
 	"0800", // フリーダイヤル 0800-xxx-xxxx
 }
 
-var OtherCode = []string{
+var otherCode = []string{
 	"0570", // ナビダイヤル 0570-xxx-xxx
 	"0990", // ダイヤルQ2 0990-xxx-xxx
 }
 
-var AreaCodes = [][]string{
-	AreaCode5,
-	AreaCode4,
-	AreaCode3,
-	AreaCode2,
+var areaCodes = [][]string{
+	areaCode5,
+	areaCode4,
+	areaCode3,
+	areaCode2,
 }
 
 var (
@@ -51,10 +50,10 @@ var (
 	matchError = errors.New("telephone number does not match any area code.")
 )
 
-// JpTelSplit splits japaneses telephone number to a slice consist of AreaCode, CityCode, SubscriberNumber.
-func JpTelSplit(tel string) ([]string, error) {
+// Split splits japaneses telephone number to a slice consist of AreaCode, CityCode, SubscriberNumber.
+func Split(tel string) ([]string, error) {
 	// 固定電話
-	for _, areaCode := range AreaCodes {
+	for _, areaCode := range areaCodes {
 		for _, code := range areaCode {
 			if strings.HasPrefix(tel, code) {
 				if len(tel) < totalCodeLen {
@@ -71,9 +70,9 @@ func JpTelSplit(tel string) ([]string, error) {
 	}
 
 	// フリーダイヤル
-	for _, code := range FreeDialCode {
+	for _, code := range freeDialCode {
 		if strings.HasPrefix(tel, code) {
-			if len(tel) < freeDialPrefixLen+freeDialCodeLen {
+			if len(tel) < freeDialPrefixLen + freeDialCodeLen {
 				return []string{"", "", ""}, shortError
 			}
 			return []string{
@@ -85,9 +84,9 @@ func JpTelSplit(tel string) ([]string, error) {
 	}
 
 	// 携帯番号
-	for _, code := range MobileCode {
+	for _, code := range mobileCode {
 		if strings.HasPrefix(tel, code) {
-			if len(tel) < mobileCodePrefixLen+mobileCodeLen {
+			if len(tel) < mobileCodePrefixLen + mobileCodeLen {
 				return []string{"", "", ""}, shortError
 			}
 			return []string{
@@ -99,15 +98,15 @@ func JpTelSplit(tel string) ([]string, error) {
 	}
 
 	// その他番号
-	for _, code := range OtherCode {
+	for _, code := range otherCode {
 		if strings.HasPrefix(tel, code) {
-			if len(tel) < otherCodePrefixLen+otherCodeLen {
+			if len(tel) < otherCodePrefixLen + otherCodeLen {
 				return []string{"", "", ""}, shortError
 			}
 			return []string{
 				tel[:otherCodePrefixLen],
-				tel[otherCodePrefixLen : otherCodePrefixLen+otherCodeLen],
-				tel[otherCodePrefixLen+otherCodeLen:],
+				tel[otherCodePrefixLen : otherCodePrefixLen+ otherCodeLen],
+				tel[otherCodePrefixLen+ otherCodeLen:],
 			}, nil
 		}
 	}

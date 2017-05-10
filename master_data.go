@@ -1,12 +1,12 @@
-package jptelsplit
+package jptel
 
-var AreaCode2 = []string{
+var areaCode2 = []string{
 	"03",
 	"04",
 	"06",
 }
 
-var AreaCode3 = []string{
+var areaCode3 = []string{
 	"011",
 	"015",
 	"017",
@@ -50,7 +50,7 @@ var AreaCode3 = []string{
 	"099",
 }
 
-var AreaCode4 = []string{
+var areaCode4 = []string{
 	"0123",
 	"0124",
 	"0125",
@@ -311,7 +311,7 @@ var AreaCode4 = []string{
 	"0997",
 }
 
-var AreaCode5 = []string{
+var areaCode5 = []string{
 	"01267",
 	"01372",
 	"01374",

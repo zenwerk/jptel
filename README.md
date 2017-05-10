@@ -1,11 +1,11 @@
-# JpTelSplit 電話番号分割
+# jptel 電話番号分割
 
-JpTelSplit は日本の電話番号を市外局番・市内局番・加入者番号に分割して返します。
+jptel は日本の電話番号を市外局番・市内局番・加入者番号に分割して返します。
 
 ## インストール
 
 ```
-$ go get github.com/zenwerk/jp-tel-split
+$ go get github.com/zenwerk/jptel
 ```
 
 ## 使い方
@@ -16,11 +16,11 @@ package main
 import (
 	"fmt"
 
-	"github.com/zenwerk/jp-tel-split"
+	"github.com/zenwerk/jptel"
 )
 
 func main() {
-	result, err := jptelsplit.JpTelSplit("0312345678")
+	result, err := jptel.Split("0312345678")
 	if err != nil {
 		panic(err)
 	}
@@ -29,7 +29,7 @@ func main() {
 	fmt.Println(result[1])   // 1234
 	fmt.Println(result[2])   // 5678
 
-	result, err = jptelsplit.JpTelSplit("090987654323")
+	result, err = jptel.Split("090987654323")
 	if err != nil {
 		panic(err)
 	}
