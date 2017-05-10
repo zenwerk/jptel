@@ -16,6 +16,24 @@ func TestSplit(t *testing.T) {
 	assert.Equal("1234", result.CityCode)
 	assert.Equal("5678", result.SubscriberCode)
 
+	result, err = Split("03-1234-5678")
+	assert.Nil(err)
+	assert.Equal("03", result.AreaCode)
+	assert.Equal("1234", result.CityCode)
+	assert.Equal("5678", result.SubscriberCode)
+
+	result, err = Split("０３１２３４５６７８")
+	assert.Nil(err)
+	assert.Equal("03", result.AreaCode)
+	assert.Equal("1234", result.CityCode)
+	assert.Equal("5678", result.SubscriberCode)
+
+	result, err = Split("０３１-２３４５ー６７８")
+	assert.Nil(err)
+	assert.Equal("03", result.AreaCode)
+	assert.Equal("1234", result.CityCode)
+	assert.Equal("5678", result.SubscriberCode)
+
 	result, err = Split("0222522222")
 	assert.Nil(err)
 	assert.Equal("022", result.AreaCode)
@@ -59,7 +77,19 @@ func TestSplit(t *testing.T) {
 	assert.Equal("", result.CityCode)
 	assert.Equal("", result.SubscriberCode)
 
+	result, err = Split("００００００００００")
+	assert.Error(err)
+	assert.Equal("", result.AreaCode)
+	assert.Equal("", result.CityCode)
+	assert.Equal("", result.SubscriberCode)
+
 	result, err = Split("0312")
+	assert.Error(err)
+	assert.Equal("", result.AreaCode)
+	assert.Equal("", result.CityCode)
+	assert.Equal("", result.SubscriberCode)
+
+	result, err = Split("０３１２")
 	assert.Error(err)
 	assert.Equal("", result.AreaCode)
 	assert.Equal("", result.CityCode)

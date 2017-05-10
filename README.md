@@ -28,7 +28,7 @@ func main() {
 	fmt.Println(result.CityCode)       // 1234
 	fmt.Println(result.SubscriberCode) // 5678
 
-	result, err = jptel.Split("09098765432")
+	result, err = jptel.Split("０９０９８７６５４３２")
 	if err != nil {
 		panic(err)
 	}
