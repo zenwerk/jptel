@@ -2,6 +2,7 @@ package jptelsplit
 
 import (
 	"strings"
+
 	"github.com/pkg/errors"
 )
 
@@ -16,8 +17,8 @@ const (
 	mobileCodeLen       = 4
 	freeDialPrefixLen   = 4
 	freeDialCodeLen     = 3
-	OtherCodePrefixLen  = 4
-	OtherCodeLen        = 3
+	otherCodePrefixLen  = 4
+	otherCodeLen        = 3
 )
 
 var MobileCode = []string{
@@ -72,7 +73,7 @@ func JpTelSplit(tel string) ([]string, error) {
 	// フリーダイヤル
 	for _, code := range FreeDialCode {
 		if strings.HasPrefix(tel, code) {
-			if len(tel) < freeDialPrefixLen + freeDialCodeLen {
+			if len(tel) < freeDialPrefixLen+freeDialCodeLen {
 				return []string{"", "", ""}, shortError
 			}
 			return []string{
@@ -86,7 +87,7 @@ func JpTelSplit(tel string) ([]string, error) {
 	// 携帯番号
 	for _, code := range MobileCode {
 		if strings.HasPrefix(tel, code) {
-			if len(tel) < mobileCodePrefixLen + mobileCodeLen {
+			if len(tel) < mobileCodePrefixLen+mobileCodeLen {
 				return []string{"", "", ""}, shortError
 			}
 			return []string{
@@ -100,13 +101,13 @@ func JpTelSplit(tel string) ([]string, error) {
 	// その他番号
 	for _, code := range OtherCode {
 		if strings.HasPrefix(tel, code) {
-			if len(tel) < OtherCodePrefixLen + OtherCodeLen {
+			if len(tel) < otherCodePrefixLen+otherCodeLen {
 				return []string{"", "", ""}, shortError
 			}
 			return []string{
-				tel[:OtherCodePrefixLen],
-				tel[OtherCodePrefixLen : OtherCodePrefixLen+OtherCodeLen],
-				tel[OtherCodePrefixLen+OtherCodeLen:],
+				tel[:otherCodePrefixLen],
+				tel[otherCodePrefixLen : otherCodePrefixLen+otherCodeLen],
+				tel[otherCodePrefixLen+otherCodeLen:],
 			}, nil
 		}
 	}
