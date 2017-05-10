@@ -50,21 +50,28 @@ var (
 	matchError = errors.New("telephone number does not match any area code.")
 )
 
+func generateJPTelephoneNumber(tel string, areaCodeLength, cityCodeLength int) (JPTelephoneNumber, error) {
+	var totalCodeLength = areaCodeLength + cityCodeLength
+	if len(tel) < totalCodeLength {
+		return JPTelephoneNumber{}, shortError
+	}
+
+	return JPTelephoneNumber{
+		AreaCode:       tel[:areaCodeLength],
+		CityCode:       tel[areaCodeLength:totalCodeLength],
+		SubscriberCode: tel[totalCodeLength:],
+	}, nil
+}
+
 // Split splits japaneses telephone number to a slice consist of AreaCode, CityCode, SubscriberNumber.
 func Split(tel string) (JPTelephoneNumber, error) {
 	// 固定電話
 	for _, areaCode := range areaCodes {
 		for _, code := range areaCode {
 			if strings.HasPrefix(tel, code) {
-				if len(tel) < totalCodeLen {
-					return JPTelephoneNumber{}, shortError
-				}
-				codeLen := len(code)
-				return JPTelephoneNumber{
-					AreaCode:       tel[:codeLen],
-					CityCode:       tel[codeLen:totalCodeLen],
-					SubscriberCode: tel[totalCodeLen:],
-				}, nil
+				areaCodeLength := len(code)
+				cityCodeLength := totalCodeLen - areaCodeLength
+				return generateJPTelephoneNumber(tel, areaCodeLength, cityCodeLength)
 			}
 		}
 	}
@@ -72,42 +79,21 @@ func Split(tel string) (JPTelephoneNumber, error) {
 	// フリーダイヤル
 	for _, code := range freeDialCode {
 		if strings.HasPrefix(tel, code) {
-			if len(tel) < freeDialPrefixLen+freeDialCodeLen {
-				return JPTelephoneNumber{}, shortError
-			}
-			return JPTelephoneNumber{
-				AreaCode:       tel[:freeDialPrefixLen],
-				CityCode:       tel[freeDialPrefixLen : freeDialPrefixLen+freeDialCodeLen],
-				SubscriberCode: tel[freeDialPrefixLen+freeDialCodeLen:],
-			}, nil
+			return generateJPTelephoneNumber(tel, freeDialPrefixLen, freeDialCodeLen)
 		}
 	}
 
 	// 携帯番号
 	for _, code := range mobileCode {
 		if strings.HasPrefix(tel, code) {
-			if len(tel) < mobileCodePrefixLen+mobileCodeLen {
-				return JPTelephoneNumber{}, shortError
-			}
-			return JPTelephoneNumber{
-				AreaCode:       tel[:mobileCodePrefixLen],
-				CityCode:       tel[mobileCodePrefixLen : mobileCodePrefixLen+mobileCodeLen],
-				SubscriberCode: tel[mobileCodePrefixLen+mobileCodeLen:],
-			}, nil
+			return generateJPTelephoneNumber(tel, mobileCodePrefixLen, mobileCodeLen)
 		}
 	}
 
 	// その他番号
 	for _, code := range otherCode {
 		if strings.HasPrefix(tel, code) {
-			if len(tel) < otherCodePrefixLen+otherCodeLen {
-				return JPTelephoneNumber{}, shortError
-			}
-			return JPTelephoneNumber{
-				AreaCode:       tel[:otherCodePrefixLen],
-				CityCode:       tel[otherCodePrefixLen : otherCodePrefixLen+otherCodeLen],
-				SubscriberCode: tel[otherCodePrefixLen+otherCodeLen:],
-			}, nil
+			return generateJPTelephoneNumber(tel, otherCodePrefixLen, otherCodeLen)
 		}
 	}
 
