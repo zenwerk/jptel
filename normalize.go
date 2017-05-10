@@ -1,0 +1,53 @@
+package jptel
+
+import (
+	"errors"
+	"strings"
+	"regexp"
+)
+
+var replacer = strings.NewReplacer(
+	"０", "0",
+	"１", "1",
+	"２", "2",
+	"３", "3",
+	"４", "4",
+	"５", "5",
+	"６", "6",
+	"７", "7",
+	"８", "8",
+	"９", "9",
+	"ー", "-",
+)
+
+const (
+	numberAndHyphenRegexpString = `^[ー0-9０-９-]+$`
+)
+
+var numberAndHyphenRegexp = regexp.MustCompile(numberAndHyphenRegexpString)
+
+func zenkakuToHankaku(src string) string {
+	return replacer.Replace(src)
+}
+
+func extractNumber(src string) (string, error) {
+	if !numberAndHyphenRegexp.MatchString(src) {
+		return "", errors.New("src string must be number or hyphen")
+	}
+	return strings.Replace(zenkakuToHankaku(src), "-", "", -1), nil
+}
+
+// Normalize
+func Normalize(src string) (string, error) {
+	number, err := extractNumber(src)
+	if err != nil {
+		return "", err
+	}
+
+	phoneNumber, err := Split(number)
+	if err != nil {
+		return "", err
+	}
+
+	return phoneNumber.Format(), nil
+}
