@@ -25,6 +25,10 @@ func TestNormalize(t *testing.T) {
 	assert.Equal("0123-45-6789", result)
 	assert.Nil(err)
 
+	result, err = Normalize("０１２３−４５−6789")
+	assert.Equal("0123-45-6789", result)
+	assert.Nil(err)
+
 	result, err = Normalize("-0９０-１２３ー4５６-７８-")
 	assert.Equal("090-1234-5678", result)
 	assert.Nil(err)

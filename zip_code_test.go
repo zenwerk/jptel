@@ -25,6 +25,7 @@ func TestValidateZipCode(t *testing.T) {
 	assert.Nil(ValidateZipCode("１００ー００００"))
 	assert.Nil(ValidateZipCode("１00000０"))
 	assert.Nil(ValidateZipCode("１００-００００"))
+	assert.Nil(ValidateZipCode("100−００００"))
 
 	assert.Error(ValidateZipCode("100000"))
 	assert.Error(ValidateZipCode("10-00000"))

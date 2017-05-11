@@ -8,7 +8,7 @@ import (
 var (
 	telephoneNumberRegexString           = `^[0-9０-９]{10,11}$` // ハイフン無し
 	telephoneNumberRegex                 = regexp.MustCompile(telephoneNumberRegexString)
-	telephoneNumberWithHyphenRegexString = `^[0-9０-９]{2,4}[ー-][0-9０-９]{2,4}[ー-][0-9０-９]{3,4}$` // ハイフン有り
+	telephoneNumberWithHyphenRegexString = `^[0-9０-９]{2,4}[−ー-][0-9０-９]{2,4}[−ー-][0-9０-９]{3,4}$` // ハイフン有り
 	telephoneNumberWithHyphenRegex       = regexp.MustCompile(telephoneNumberWithHyphenRegexString)
 
 	ErrInvalidNumber = errors.New("telephone number is invalid")

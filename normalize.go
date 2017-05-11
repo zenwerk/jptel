@@ -18,10 +18,11 @@ var replacer = strings.NewReplacer(
 	"８", "8",
 	"９", "9",
 	"ー", "-",
+	"−", "-",
 )
 
 const (
-	numberAndHyphenRegexpString = `^[ー0-9０-９-]+$`
+	numberAndHyphenRegexpString = `^[−ー0-9０-９-]+$`
 )
 
 var (

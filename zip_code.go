@@ -13,7 +13,7 @@ const (
 var (
 	zipCodeRegexString           = `^[0-9０-９]{7}$` // ハイフン無し
 	zipCodeRegex                 = regexp.MustCompile(zipCodeRegexString)
-	zipCodeWithHyphenRegexString = `^[0-9０-９]{3}[ー-][0-9０-９]{4}$` // ハイフン有り
+	zipCodeWithHyphenRegexString = `^[0-9０-９]{3}[−ー-][0-9０-９]{4}$` // ハイフン有り
 	zipCodeWIthHyphenRegex       = regexp.MustCompile(zipCodeWithHyphenRegexString)
 
 	ErrInvalidZipCode = errors.New("zip code is invalid")

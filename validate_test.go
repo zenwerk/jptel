@@ -16,6 +16,7 @@ func TestValidate(t *testing.T) {
 	assert.Nil(Validate("０１２３４５６７８９"))
 	assert.Nil(Validate("０１２３-４５ー６７８９"))
 	assert.Nil(Validate("０12３-４５ー６78９"))
+	assert.Nil(Validate("０１２３−４５−6789"))
 
 	// invalid telephone number
 	assert.Error(Validate("022252-2222"))
