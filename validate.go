@@ -10,12 +10,14 @@ var (
 	telephoneNumberRegex                 = regexp.MustCompile(telephoneNumberRegexString)
 	telephoneNumberWithHyphenRegexString = `^[0-9０-９]{2,4}[ー-][0-9０-９]{2,4}[ー-][0-9０-９]{3,4}$` // ハイフン有り
 	telephoneNumberWithHyphenRegex       = regexp.MustCompile(telephoneNumberWithHyphenRegexString)
+
+	ErrInvalidNumber = errors.New("telephone number is invalid")
 )
 
 // Validate validate telephone number
 func Validate(src string) error {
 	if !telephoneNumberRegex.MatchString(src) && !telephoneNumberWithHyphenRegex.MatchString(src) {
-		return errors.New("telephone number is invalid")
+		return ErrInvalidNumber
 	}
 
 	number, err := extractNumber(src)

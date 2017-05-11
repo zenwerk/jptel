@@ -46,14 +46,14 @@ var areaCodes = [][]string{
 }
 
 var (
-	shortError = errors.New("telephone number is too short.")
-	matchError = errors.New("telephone number does not match any area code.")
+	ErrShort = errors.New("telephone number is too short")
+	ErrMatch = errors.New("telephone number does not match any area code")
 )
 
 func generateJPTelephoneNumber(number string, areaCodeLength, cityCodeLength int) (JPTelephoneNumber, error) {
 	var totalCodeLength = areaCodeLength + cityCodeLength
 	if len(number) < totalCodeLength {
-		return JPTelephoneNumber{}, shortError
+		return JPTelephoneNumber{}, ErrShort
 	}
 
 	return JPTelephoneNumber{
@@ -102,5 +102,5 @@ func Split(src string) (JPTelephoneNumber, error) {
 		}
 	}
 
-	return JPTelephoneNumber{}, matchError
+	return JPTelephoneNumber{}, ErrMatch
 }

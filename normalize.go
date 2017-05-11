@@ -24,7 +24,11 @@ const (
 	numberAndHyphenRegexpString = `^[ー0-9０-９-]+$`
 )
 
-var numberAndHyphenRegexp = regexp.MustCompile(numberAndHyphenRegexpString)
+var (
+	numberAndHyphenRegexp = regexp.MustCompile(numberAndHyphenRegexpString)
+
+	ErrContainsInvalidCharactor = errors.New("src string must be number or hyphen")
+)
 
 func zenkakuToHankaku(src string) string {
 	return replacer.Replace(src)
@@ -32,7 +36,7 @@ func zenkakuToHankaku(src string) string {
 
 func extractNumber(src string) (string, error) {
 	if !numberAndHyphenRegexp.MatchString(src) {
-		return "", errors.New("src string must be number or hyphen")
+		return "", ErrContainsInvalidCharactor
 	}
 	return strings.Replace(zenkakuToHankaku(src), "-", "", -1), nil
 }
