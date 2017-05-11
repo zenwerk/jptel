@@ -14,7 +14,7 @@ var (
 	ErrInvalidNumber = errors.New("telephone number is invalid")
 )
 
-// Validate validate telephone number
+// Validate は入力された文字列が電話番号として有効か検査する
 func Validate(src string) error {
 	if !telephoneNumberRegex.MatchString(src) && !telephoneNumberWithHyphenRegex.MatchString(src) {
 		return ErrInvalidNumber

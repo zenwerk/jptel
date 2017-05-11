@@ -2,14 +2,14 @@ package jptel
 
 import "fmt"
 
-// JPTelephoneNumber represents japanese telephone number
+// JPTelephoneNumber は電話番号1件を表す
 type JPTelephoneNumber struct {
 	AreaCode       string
 	CityCode       string
 	SubscriberCode string
 }
 
-// Format returns phone number separated by hyphens
+// Format は電話番号をハイフン区切りの文字列にして返す
 func (n *JPTelephoneNumber) Format() string {
 	return fmt.Sprintf("%s-%s-%s", n.AreaCode, n.CityCode, n.SubscriberCode)
 }

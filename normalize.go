@@ -41,7 +41,7 @@ func extractNumber(src string) (string, error) {
 	return strings.Replace(zenkakuToHankaku(src), "-", "", -1), nil
 }
 
-// Normalize
+// Normalize は入力された文字列をハイフン区切りの電話番号にして返す
 func Normalize(src string) (string, error) {
 	number, err := extractNumber(src)
 	if err != nil {

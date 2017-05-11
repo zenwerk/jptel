@@ -1,6 +1,8 @@
-# jptel 電話番号分割
+# jptel 電話番号ユーティリティ
 
 jptel は日本の電話番号を市外局番・市内局番・加入者番号に分割して返します。
+
+This package is utility for japaneses telephone number.
 
 ## インストール
 
