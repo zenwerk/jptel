@@ -35,7 +35,8 @@ func zenkakuToHankaku(src string) string {
 	return replacer.Replace(src)
 }
 
-func extractNumber(src string) (string, error) {
+// ExtractNumber は全角半角やハイフンが混じった文字列を半角数字のみの文字列にして返す
+func ExtractNumber(src string) (string, error) {
 	if !numberAndHyphenRegexp.MatchString(src) {
 		return "", ErrContainsInvalidCharactor
 	}
@@ -44,7 +45,7 @@ func extractNumber(src string) (string, error) {
 
 // Normalize は入力された文字列をハイフン区切りの電話番号にして返す
 func Normalize(src string) (string, error) {
-	number, err := extractNumber(src)
+	number, err := ExtractNumber(src)
 	if err != nil {
 		return "", err
 	}

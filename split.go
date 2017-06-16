@@ -65,7 +65,7 @@ func generateJPTelephoneNumber(number string, areaCodeLength, cityCodeLength int
 
 // Split は入力された文字列を JPTelephoneNumber 構造体にして返す
 func Split(src string) (JPTelephoneNumber, error) {
-	number, err := extractNumber(src)
+	number, err := ExtractNumber(src)
 	if err != nil {
 		return JPTelephoneNumber{}, err
 	}

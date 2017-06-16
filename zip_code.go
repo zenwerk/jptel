@@ -32,7 +32,7 @@ func (zc *JPZipCode) Format() string {
 
 // SplitZipCode は入力された文字列を JPZipCode 構造体にして返す
 func SplitZipCode(src string) (JPZipCode, error) {
-	number, err := extractNumber(src)
+	number, err := ExtractNumber(src)
 	if err != nil {
 		return JPZipCode{}, err
 	}
@@ -58,7 +58,7 @@ func ValidateZipCode(src string) error {
 
 // NormalizeZipCode は入力された文字列をハイフン区切りの郵便番号にして返す
 func NormalizeZipCode(src string) (string, error) {
-	number, err := extractNumber(src)
+	number, err := ExtractNumber(src)
 	if err != nil {
 		return "", err
 	}

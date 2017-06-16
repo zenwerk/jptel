@@ -20,7 +20,7 @@ func Validate(src string) error {
 		return ErrInvalidNumber
 	}
 
-	number, err := extractNumber(src)
+	number, err := ExtractNumber(src)
 	if err != nil {
 		return err
 	}
